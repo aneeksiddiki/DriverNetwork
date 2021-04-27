@@ -1,0 +1,570 @@
+{% extends 'customer/customer_layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-3">
+    {% for m in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ m }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% if info.status == 'Pending' %}
+    <div class="row">
+        <div class="col-lg-2 mt-3">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-header">Current Membership</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ info.membership }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mt-3 text-center">
+            <form method="post" action="{% url 'varifycode' %}">
+                {% csrf_token %}
+                <h5>Enter Confirmation Code Here & Click on Verify</h5>
+                <input type="text" class="form-control mt-2" name="verifycode">
+                <button type="submit" class="btn btn-success mt-2">Verify</button>
+            </form>
+        </div>
+        <div class="col-lg-4 mt-3 text-center">
+            <form method="post" action="{% url 'resendcode' %}">
+                {% csrf_token %}
+                <h5>Didn't Recieve The Verification Code ?</h5>
+                <button type="submit" class="btn btn-info mt-2">Resend Code</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    {% if info.state == None %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card btn-custom-2">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Please Fill The Following Information To Complete The Process </h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card btn-custom-3">
+                <div class="card-body">
+                    <form method="post" action="{% url 'infocomplete' %}">
+                        {% csrf_token %}
+                        <div class="row" id="personalinfo">
+                            <div class="col-lg-3">
+                                <label>State <span style="color: red">*</span></label>
+                                <input type="text" name="state" id="state" class="form-control" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>City <span style="color: red">*</span></label>
+                                <input type="text" name="city" id="city" class="form-control" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>ZIP <span style="color: red">*</span></label>
+                                <input type="text" name="zip" id="zip" class="form-control" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Skype</label>
+                                <input type="text" name="skype" class="form-control">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>WhatsApp</label>
+                                <input type="text" name="whatsapp" class="form-control">
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Contact No <span style="color: red">*</span></label>
+                                <input type="text" name="contact" id="contact" class="form-control" required>
+                            </div>
+                            <div class="col-lg-3">
+                                <label>Mobile Carrier <span style="color: red">*</span></label>
+                                <select class="custom-select" name="carrier" id="carrier" required>
+                                    <option selected disabled value="">---Chose One---</option>
+                                    <option value="txt.att.net">AT&T</option>
+                                    <option value="tmomail.net">T-Mobile</option>
+                                    <option value="vtext.com">Verizon</option>
+                                    <option value="messaging.sprintpcs.com">Sprint</option>
+                                    <option value="vtext.com">Xfinity Mobile</option>
+                                    <option value="vmobl.com">Virgin Mobile</option>
+                                    <option value="mmst5.tracfone.com">Tracfone</option>
+                                    <option value="smtext.com">Simple Mobile</option>
+                                    <option value="mailmymobile.net">Mint Mobile</option>
+                                    <option value="vtext.com">Red Pocket</option>
+                                    <option value="mymetropcs.com">Metro PCS</option>
+                                    <option value="sms.myboostmobile.com">Boost Mobile</option>
+                                    <option value="sms.cricketwireless.net">Cricket</option>
+                                    <option value="text.republicwireless.com">Republic Wireless</option>
+                                    <option value="msg.fi.google.com">Google Fi</option>
+                                    <option value="email.uscc.net">U.S Cellular</option>
+                                    <option value="message.ting.com">Ting</option>
+                                    <option value="mailmymobile.net">Consumer Cellular</option>
+                                    <option value="cspire1.com">C-Spire</option>
+                                    <option value="vtext.com">Page Plus</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 mt-3">
+                                <button type="submit" class="btn btn-warning btn-lg btn-block">Complete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-lg-2 mt-3">
+            <div class="card text-center bg-secondary text-white">
+                <div class="card-header">Total Points</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ info.points }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-3">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-header">Current Membership</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ info.membership }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 mt-3">
+            <div class="card text-center bg-success text-white">
+                <div class="card-header">Miles</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ memberinfo.miles }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-3 text-center">
+            <div class="card text-center bg-info text-white">
+                <div class="card-header">Free Rides</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ memberinfo.freerides }}</h5>
+                </div>
+            </div>
+        </div>
+        {% if ride_count > 0 %}
+        <div class="col-lg-2 mt-3 text-center">
+            <div class="card text-center bg-danger text-white">
+                <div class="card-header">Ride Request</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ ride.status }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="jumbotron mt-2">
+        <div class="row">
+            <div class="col-lg-3">
+                {% if ride_count < 1 %}
+                <a href="{% url 'riderequest' %}" class="btn btn-lg btn-primary btn-block">Request Ride</a>
+                {% else %}
+                <button type="button" disabled class="btn btn-lg btn-primary btn-block">Ride Requested </button>
+                {% endif %}
+            </div>
+            <div class="col-lg-3">
+                <button type="button" class="btn btn-lg btn-block btn-custom-2" data-toggle="modal" data-target="#BuyModal">Buy Miles</button>
+            </div>
+            <div class="col-lg-3">
+                <button type="button" class="btn btn-block btn-lg btn-custom-1" data-toggle="modal" data-target="#GigModal">Gig Management</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="RideModal" tabindex="-1" role="dialog" aria-labelledby="RideModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="RideModalLabel">Request Ride</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            {% if memberinfo.freerides > 0 %}
+                            <button type="button" class="btn btn-lg btn-primary btn-block" onclick="getLocation(2)">Use Free Rides</button>
+                            {% else %}
+                            <button type="button" class="btn btn-lg btn-primary btn-block" disabled>Use Free Rides</button>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-12">
+                            {% if memberinfo.miles > 0 %}
+                            <button type="button" class="btn btn-lg btn-success btn-block mt-2" data-dismiss="modal" data-toggle="modal" data-target="#MileSelectModal">Use Purchased Miles</button>
+                            {% else %}
+                            <button type="button" disabled class="btn btn-lg btn-success btn-block mt-2">Use Purchased Miles</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="BuyModal" tabindex="-1" role="dialog" aria-labelledby="BuyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="BuyModalLabel">Select One Option For Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 mt-2">
+                            <button type="button" class="btn btn-lg btn-warning btn-block" data-dismiss="modal" data-toggle="modal" data-target="#PayPalModal"><img src="{% static 'images/paypal.png' %}" width="150px"></button>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" data-dismiss="modal" data-toggle="modal" data-target="#CashAppModal"><img src="{% static 'images/cash.png' %}" width="150px"></button>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <a href="{% url 'paymenthistory' %}" class="btn btn-lg btn-custom-1 btn-block" >Payment History</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="PayPalModal" tabindex="-1" role="dialog" aria-labelledby="PayPalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PayPalModalLabel">Purchase By PayPal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="smart-button-container">
+                                <p>LeaseLiger Member Miles $5 For Every 5 Miles</p>
+                                <select class="custom-select" id="item-options">
+                                    <option value="5">5 Miles - 5 USD</option>
+                                    <option value="10">10 Miles - 10 USD</option>
+                                    <option value="15">15 Miles - 15 USD</option>
+                                    <option value="20">20 Miles - 20 USD</option>
+                                </select>
+                                <select class="custom-select" style="visibility: hidden" id="quantitySelect"></select>
+                            </div>
+                            <div id="paypal-button-container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="CashAppModal" tabindex="-1" role="dialog" aria-labelledby="CashAppModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="{% url 'cashapppayment' %}">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="CashAppModalLabel">Purchase By Cash.App</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Select A Payment Plan</label>
+                            <select name="payplan" class="custom-select" required="required">
+                                <option selected disabled value="">--- Select One Option ---</option>
+                                <option value="5">5 Miles - 5 USD</option>
+                                <option value="10">10 Miles - 10 USD</option>
+                                <option value="15">15 Miles - 15 USD</option>
+                                <option value="20">20 Miles - 20 USD</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Transaction ID</label>
+                            <input name="txnid" type="text" required class="form-control" placeholder="Enter Transaction ID.....">
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Date</label>
+                            <input name="paydate" type="date" required class="form-control" >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Proceed</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="MileSelectModal" tabindex="-1" role="dialog" aria-labelledby="MileSelectModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="MileSelectModalLabel">Select Travel Miles</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group text-center">
+                        <label>Select How Much Miles You Want To Ride:</label>
+                        <h2><span id="miles">1</span> Miles</h2>
+                        <input type="range" class="form-control" value="1" id="selectmiles" oninput="milesview()">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="getLocation(1)">Request Ride</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="GigModal" tabindex="-1" role="dialog" aria-labelledby="GigModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="GigModalLabel">Gig Management</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" class="btn btn-lg btn-block btn-custom-2" data-dismiss="modal" data-toggle="modal" data-target="#MakeGigModal">Make A Gig</button>
+                        <a href="{% url 'giglist' %}" class="btn btn-lg btn-block btn-primary">Gig List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="MakeGigModal" tabindex="-1" role="dialog" aria-labelledby="MakeGigModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 600px">
+        <div class="modal-content">
+            <form action="{% url 'makegig' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="MakeGigModalLabel">Make Gig</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Expendable Amount <span class="red">*</span></label>
+                                <input type="number" required name="amount" step="any" class="form-control btn-info" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Work Hours <span class="red">*</span></label>
+                                <input type="number" required name="hours" class="form-control btn-info" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Pickup Date <span class="red">*</span> </label>
+                                <input type="date" required name="pickupdate" class="form-control btn-info" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Pickup Time <span class="red">*</span></label>
+                                <input type="time" required name="pickuptime" class="form-control btn-info" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Preferred Vehicle</label>
+                                <select class="custom-select btn-info" required name="vehicletype">
+                                    <option value="ALL" selected>ALL</option>
+                                    <option value="SUV">SUV</option>
+                                    <option value="SEDAN">SEDAN</option>
+                                    <option value="SPORTS CAR">SPORTS CAR</option>
+                                    <option value="STATION WAGON">STATION WAGON</option>
+                                    <option value="HATCHBACK">HATCHBACK</option>
+                                    <option value="CONVERTIBLE">CONVERTIBLE</option>
+                                    <option value="MINIVAN">MINIVAN</option>
+                                    <option value="MINIVAN">MINIVAN</option>
+                                    <option value="PICKUP TRUCK">PICKUP TRUCK</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="nagotiable" value="Yes" checked>
+                                <label class="form-check-label" for="inlineCheckbox1">Nagotiable ?</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="stopable" value="Yes">
+                                <label class="form-check-label" for="inlineCheckbox2">Stops In Between Ride ?</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <div class="form-group">
+                                <label>Enter Pickup Address <span class="red">*</span> </label>
+                                <input name="pickuploc" class="phchange1 form-control btn-info" type="text" >
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <div class="form-group">
+                                <label>Enter Drop Address <span class="red">*</span></label>
+                                <input name="droploc" class="form-control btn-info phchange1" type="text" >
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" required value="Yes">
+                                <label class="form-check-label" for="inlineCheckbox2">Please Read Our <a href="#">Terms & Conditions</a> Before Placing Your Gig For Bidding</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="MapSelectModal" tabindex="-1" role="dialog" aria-labelledby="MileSelectModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="MapSelectModalLabel">Select Route</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <input name="pickup" type="search" class="form-control" id="place-search-input-pickup" placeholder="Type a pickup location"/>
+                        </div>
+                        <div class="col-lg-12 mt-2">
+                            <input name="destination" class="form-control" id="place-search-input-destination" type="search" placeholder="Type a destination location">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-center mt-2">
+                            <h4><span id="jsondata">0</span> Miles</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="getmapjson()" >Request Ride</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endif %}
+    {% endif %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.cityselect').selectpicker();
+        placeSearch({
+            key: 'tl5AN61uHkDiGBsAvzdLNIp1uOmwEMzg',
+            container: document.querySelector('#place-search-input-pickup')
+        });
+        placeSearch({
+            key: 'tl5AN61uHkDiGBsAvzdLNIp1uOmwEMzg',
+            container: document.querySelector('#place-search-input-destination')
+        });
+    })
+
+    function getmapjson()
+    {
+        var from = document.getElementById("place-search-input-pickup").value;
+        var to = document.getElementById("place-search-input-destination").value;
+        var rFrom = from.replaceAll(" ", "+");
+        rFrom = rFrom.replaceAll(",", "%2C");
+        var rTo = to.replaceAll(" ", "+");
+        rTo = rTo.replaceAll(",", "%2C");
+        key = "tl5AN61uHkDiGBsAvzdLNIp1uOmwEMzg";
+        url = "https://www.mapquestapi.com/directions/v2/route?key="+key+"&from="+rFrom+"&to="+rTo+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false";
+
+        $.getJSON(url, function(data){
+            rawdata = JSON.parse(JSON.stringify(data));
+            document.getElementById("jsondata").innerHTML = rawdata.route.distance;
+        });
+
+    }
+
+</script>
+
+
+<script type="text/javascript">
+    function milesview()
+    {
+        var miles = document.getElementById("selectmiles").value;
+        document.getElementById("miles").innerHTML= miles;
+    }
+
+    function getLocation(t)
+    {
+        globalThis.tp = t;
+        globalThis.ml = document.getElementById("selectmiles").value;
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else
+        {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position)
+    {
+        var lat =  position.coords.latitude;
+        var lon = position.coords.longitude;
+        window.location.href='../../customer/requestride/'+lat+'/'+lon+'/'+tp+'/'+ml;
+    }
+</script>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD" data-sdk-integration-source="button-factory"></script>
+    <script src="{% static 'js/paypal.js' %}"></script>
+    <script type="text/javascript">
+      initPayPalButton();
+    </script>
+
+
+
+
+
+
+
+{% endblock %}
+
+

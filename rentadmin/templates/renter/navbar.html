@@ -1,0 +1,36 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="{% url 'renterhome' %}"><img src="{% static 'images/logo.png' %}"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="notifyDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Notifications <span class="badge badge-danger">{{ notify|length }}</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="left: auto;right: 0">
+          {% for item in notify %}
+            <a class="dropdown-item" href="{% url 'markasread' item.notificationid %}"><b>{{ item.messages }}</b></a>
+            <div class="dropdown-divider"></div>
+          {% endfor %}
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Welcome, {{ request.user.first_name }} {{ request.user.last_name }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'renterprofile' %}">Profile</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="{% url 'userlogout' %}">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

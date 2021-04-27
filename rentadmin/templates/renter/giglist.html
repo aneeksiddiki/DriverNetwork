@@ -1,0 +1,121 @@
+{% extends 'renter/renter_layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-3">
+    {% for m in messages %}
+    <div class="alert alert-{{ m.tags }} alert-dismissible fade show" role="alert">
+        <strong>{{ m }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% if flag == 'Active' %}
+    <div class="row">
+        {% for item in gigs %}
+        <div class="col-lg-4">
+            <div class="card text-center">
+                <div class="card-header">Gig ID# {{ item.gigid }}</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="card-title">Cost: <span class="red">${{ item.amount }}</span></h5>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Pickup:</b></u></p>
+                            <p class="card-text">{{ item.pickuploc }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Drop:</b></u></p>
+                            <p class="card-text">{{ item.droploc }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Date:</b></u></p>
+                            <p class="card-text">{{ item.pickupdate }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Time:</b></u></p>
+                            <p class="card-text">{{ item.pickuptime }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Hours:</b></u></p>
+                            <p class="card-text">{{ item.hours }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    {% if item.gigid in ag %}
+                        <button disabled class="btn btn-danger btn-block">Active Gig</button>
+                    {% elif item.gigid in cg %}
+                        <a href="{% url 'counteroffers' item.gigid %}" target="_blank" class="btn btn-warning btn-block" >View Counter Offer By Customer</a>
+                    {% elif item.gigid in coa %}
+                        <button disabled class="btn btn-info btn-block">Waiting For Customer Confirmation</button>
+                    {% else %}
+                        {% if item.gigid in rg %}
+                            <button disabled class="btn btn-primary">Requested</button>
+                            {% if item.nagotiable == 'Yes' %}
+                                <button disabled class="btn btn-custom-1">Make Offer</button>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'gigrequest' item.gigid %}" class="btn btn-primary">Request</a>
+                            {% if item.nagotiable == 'Yes' %}
+                                <button data-toggle="modal" data-target="#OfferModal{{ item.gigid }}" class="btn btn-custom-1">Make Offer</button>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="jumbotron">
+        <h3>No Cas Has Been Assigned Yet</h3>
+    </div>
+    {% endif %}
+</div>
+
+{% if flag == 'Active' %}
+{% for item in gigs %}
+<div class="modal fade" id="OfferModal{{ item.gigid }}" tabindex="-1" role="dialog" aria-labelledby="OfferModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="{% url 'gigoffer' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="OfferModalLabel">Make An Offer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="{{ item.gigid }}" name="gigid">
+                    <div class="form-group">
+                        <label>Offer Amount</label>
+                        <input type="number" step="any" class="form-control" name="offer_amount" value="{{ item.amount }}">
+                    </div>
+                    <div class="form-group">
+                        <label>Offer Hour</label>
+                        <input type="number" class="form-control" name="offer_hour" value="{{ item.hours }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Make Offer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+<!--<script type="text/javascript">-->
+
+<!--    $(window).on('load',function(){-->
+<!--        $('#AdModal').modal('show');-->
+<!--    });-->
+
+<!--</script>-->
+
+{% endblock %}
+
+

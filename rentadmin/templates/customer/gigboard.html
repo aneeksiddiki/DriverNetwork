@@ -1,0 +1,89 @@
+{% extends 'customer/customer_layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-3">
+    {% for m in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>{{ m }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    <div class="row">
+        {% for item in gigs %}
+        <div class="col-lg-4">
+            <div class="card text-center">
+                <div class="card-header">Gig ID# {{ item.gigid }}</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="card-title">Cost: <span class="red">${{ item.amount }}</span></h5>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Pickup:</b></u></p>
+                            <p class="card-text">{{ item.pickuploc }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Drop:</b></u></p>
+                            <p class="card-text">{{ item.droploc }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Date:</b></u></p>
+                            <p class="card-text">{{ item.pickupdate }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Time:</b></u></p>
+                            <p class="card-text">{{ item.pickuptime }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Hours:</b></u></p>
+                            <p class="card-text">{{ item.hours }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Pref. Car:</b></u></p>
+                            <p class="card-text">{{ item.vehicletype }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <a class="btn btn-info" href="{% url 'checkrequests' item.gigid %}">Check Requests</a>
+                    <button class="btn btn-custom-2">Edit</button>
+                    <button class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<div class="modal fade" id="AdModal" tabindex="-1" role="dialog" aria-labelledby="AdModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    ...
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(window).on('load',function(){
+        $('#AdModal').modal('show');
+    });
+
+</script>
+
+{% endblock %}
+
+

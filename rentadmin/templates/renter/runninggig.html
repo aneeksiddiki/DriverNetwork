@@ -1,0 +1,54 @@
+{% extends 'renter/renter_layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-3">
+    {% for m in messages %}
+    <div class="alert alert-{{ m.tags }} alert-dismissible fade show" role="alert">
+        <strong>{{ m }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        {% for item in gigs %}
+        <div class="col-lg-4">
+            <div class="card text-center">
+                <div class="card-header">Gig ID# {{ item.gig.gigid }}</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h5 class="card-title">Cost: <span class="red">${{ item.gig.amount }}</span></h5>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Pickup:</b></u></p>
+                            <p class="card-text">{{ item.gig.pickuploc }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Drop:</b></u></p>
+                            <p class="card-text">{{ item.gig.droploc }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Date:</b></u></p>
+                            <p class="card-text">{{ item.gig.pickupdate }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Time:</b></u></p>
+                            <p class="card-text">{{ item.gig.pickuptime }}</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <p class="card-text" style="font-size: 18px;margin: 0;color:indigo"><u><b>Hours:</b></u></p>
+                            <p class="card-text">{{ item.gig.hours }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+

@@ -1,0 +1,59 @@
+{% extends 'rentadmin/layout.html' %}
+{% block content %}
+{% load static %}
+    <div class="container mt-4" style="width:50%">
+        <div class="row text-center">
+            <div class="col-lg-12 mb-2">
+                <img src="{% static 'images/cars/none.jpg' %}" alt="carimage" class="img-thumbnail">
+            </div>
+            <div class="col-lg-3">
+                <h5>Make:</h5>
+                <p>{{ car.make }}</p>
+            </div>
+            <div class="col-lg-3">
+                <h5>Model:</h5>
+                <p>{{ car.model }}</p>
+            </div>
+            <div class="col-lg-3">
+                <h5>Mfg. Year:</h5>
+                <p>{{ car.mfg_year }}</p>
+            </div>
+            <div class="col-lg-3">
+                <h5>Category:</h5>
+                <p>{{ car.category }}</p>
+            </div>
+            <div class="col-lg-3">
+                <h5>VIN:</h5>
+                <p>{{ car.vin }}</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-lg-6">
+                <a href="{% url 'updatecar' car.carid %}" class="btn btn-info btn-block">Edit</a>
+            </div>
+            <div class="col-lg-6">
+                <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#DeleteModal">Delete</button>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="DeleteModalLabel">Delete Car</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <h3>Are You Sure ??</h3>
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'deletecar' car.carid %}" class="btn btn-danger">Delete</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

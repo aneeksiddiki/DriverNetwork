@@ -1,0 +1,152 @@
+{% extends 'customer/customer_layout_map.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container mt-3">
+    {% for m in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ m }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+    <div class="jumbotron mt-2" id="first" style="padding:0;height: 400px;">
+        <h3 id="jsondata">Select A Pickup Point</h3>
+        <div id="pickupmap" style="height:100%"></div>
+        <button type="button" onclick="test()" class="btn btn-primary btn-block btn-lg">Confirm Pickup Location</button>
+    </div>
+
+    <div class="jumbotron mt-2" id="second" style="padding:0;height: 400px;display: none">
+        <h3 id="test">Select A Destination Point</h3>
+        <div id="destinationmap" style="height:100%"></div>
+        <button type="button" onclick="getRoute()" class="btn btn-custom-2 btn-block btn-lg">Confirm Destination Location</button>
+    </div>
+
+</div>
+
+<script>
+    function test()
+    {
+        $('#first').hide();
+        $('#second').show();
+    }
+    $(document).ready(function() {
+        $('.cityselect').selectpicker();
+        placeSearch({
+            key: 'tl5AN61uHkDiGBsAvzdLNIp1uOmwEMzg',
+            container: document.querySelector('#place-search-input-pickup')
+        });
+        placeSearch({
+            key: 'tl5AN61uHkDiGBsAvzdLNIp1uOmwEMzg',
+            container: document.querySelector('#place-search-input-destination')
+        });
+    })
+
+    function getAddress()
+    {
+        var from = document.getElementById("place-search-input-pickup").value;
+        var rFrom = from.replaceAll(" ", "+");
+        rFrom = rFrom.replaceAll(",", "%2C");
+
+        key = "tl5AN61uHkDiGBsAvzdLNIp1uOmwEMzg";
+        url = "https://www.mapquestapi.com/directions/v2/route?key="+key+"&from="+rFrom+"&to="+rTo+"&outFormat=json&ambiguities=ignore&routeType=fastest&doReverseGeocode=false&enhancedNarrative=false&avoidTimedConditions=false";
+
+        $.getJSON(url, function(data){
+            rawdata = JSON.parse(JSON.stringify(data));
+            document.getElementById("jsondata").innerHTML = rawdata.route.distance;
+        });
+    }
+
+    function getRoute() {
+        var url =
+          'https://api.mapbox.com/directions/v5/mapbox/driving-traffic/' +
+          sessionStorage.getItem("pickuplon") +
+          ',' +
+          sessionStorage.getItem("pickuplat") +
+          ';' +
+          sessionStorage.getItem("dstlon") +
+          ',' +
+          sessionStorage.getItem("dstlat") +
+          '?steps=true&geometries=geojson&access_token=' +
+          mapboxgl.accessToken;
+
+        $.getJSON(url, function(data){
+            rawdata = JSON.parse(JSON.stringify(data));
+            var miles = rawdata.routes[0].distance / 1609;
+            var redir = "../requestride/"+sessionStorage.getItem("pickuplat")+"/"+ sessionStorage.getItem("pickuplon")+"/"+ sessionStorage.getItem("dstlat")+"/"+ sessionStorage.getItem("dstlon")+"/"+"1/"+miles;
+            window.location.href = redir;
+        });
+    }
+
+</script>
+
+<script>
+	var defLng = -76.7273517;
+	var defLat = 39.179094;
+
+	sessionStorage.setItem("pickuplon", defLng);
+	sessionStorage.setItem("pickuplat", defLat);
+
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYW5lZWtzaWRkaWtpIiwiYSI6ImNrbDhqNHJ2dzFka2wycHByOXN6b2J2enIifQ.7lupMxz5kqwSPWuq0fL9gQ';
+	var map = new mapboxgl.Map({
+		container: 'pickupmap',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [defLng, defLat],
+		zoom: 12
+	});
+
+	var map2 = new mapboxgl.Map({
+		container: 'destinationmap',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [sessionStorage.getItem("pickuplon"), sessionStorage.getItem("pickuplat")],
+		zoom: 12
+	});
+
+    var pickup = new mapboxgl.Marker().setLngLat([defLng, defLat]).addTo(map);
+    var destination = new mapboxgl.Marker().setLngLat([
+                            sessionStorage.getItem("pickuplon"), sessionStorage.getItem("pickuplat")
+                        ]).addTo(map2);
+
+    var geolocate = new mapboxgl.GeolocateControl({
+						positionOptions: {
+							enableHighAccuracy: true
+						},
+						trackUserLocation: true
+					});
+	map.addControl(geolocate);
+	geolocate.on('geolocate', function(e) {
+	        pickup.remove();
+	        pickup = new mapboxgl.Marker().setLngLat([e.coords.longitude, e.coords.latitude]).addTo(map);
+	        sessionStorage.setItem("pickuplon", e.coords.longitude);
+	        sessionStorage.setItem("pickuplat", e.coords.latitude);
+		});
+
+    map.on('click', function(e) {
+        var coordinates = e.lngLat;
+		pickup.remove()
+		pickup = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+		sessionStorage.setItem("pickuplon", coordinates.lng);
+	    sessionStorage.setItem("pickuplat", coordinates.lat);
+		new mapboxgl.Popup()
+		    .setLngLat(coordinates)
+		    .addTo(map);
+    });
+
+    map2.on('click', function(e) {
+        var coordinates = e.lngLat;
+		destination.remove()
+		destination = new mapboxgl.Marker().setLngLat(coordinates).addTo(map2);
+		sessionStorage.setItem("dstlon", coordinates.lng);
+	    sessionStorage.setItem("dstlat", coordinates.lat);
+		new mapboxgl.Popup()
+		    .setLngLat(coordinates)
+		    .addTo(map2);
+    });
+
+
+
+</script>
+
+{% endblock %}

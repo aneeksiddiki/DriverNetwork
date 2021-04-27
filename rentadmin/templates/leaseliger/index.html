@@ -1,0 +1,374 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://leaseliger.com/static/landing/images/favicon.png">
+
+    <title>LeaseLiger | Homepage</title>
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/pricing/pricing.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-dark border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal"><img src="{% static 'images/logo.png' %}"></h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-white" href="#">Services</a>
+        <a class="p-2 text-white" href="#">About Us</a>
+        <a class="p-2 text-white" href="#">Pricing</a>
+      </nav>
+      <a class="btn btn-outline-primary" href="{% url 'userlogin' %}">Login</a>
+    </div>
+
+<!--------------------------	Slider  ------------------------------------->
+	<div class="container-fluid" style="padding-left:0;padding-right:0">
+		<div class="custombackground"></div>
+		<div class="row mx-2 pt-3">
+			<div class="col-lg-4">
+				<img src="https://www.animatedimages.org/data/media/67/animated-car-image-0124.gif" width="100%"/>
+			</div>
+			<div class="col-lg-8 text-right">
+				<h3>Welcome To The World of Opportunities</h3>
+				<h5>Join Our Community. Grab A Chunk of Your Future of Every Solution</h5>
+				<a href="{% url 'joinasrenter' %}" class="btn btn-custom-4 btn-lg">Join As Renter</a>
+			</div>
+		</div>
+	</div>
+	<hr>
+<!--------------------------	Membership  ------------------------------------->
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Customer Membership</h1>
+      <p class="lead">We Made It Simple: Dollars Spent Equals Points Earned. No Prior Charges or Credit Card Required</p>
+    </div>
+
+    <div class="container">
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Silver</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$20 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>No Charges Before Car Delivery</li>
+              <li>Easy & Flexible Conditions</li>
+              <li>No Free Rides</li>
+              <li>24x7 Support</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-outline-primary" data-toggle="modal" data-target="#SilverModal">Let's Ride</button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Gold</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$50 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>No Charges Before Car Delivery</li>
+              <li>Easy & Flexible Conditions</li>
+              <li>2 Free Rides(5 Miles Each)</li>
+              <li>24x7 Support</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-outline-primary"data-toggle="modal" data-target="#GoldModal">Let's Roll</button>
+          </div>
+        </div>
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Platinum</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title">$100 <small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <li>No Charges Before Car Delivery</li>
+              <li>Easy & Flexible Conditions</li>
+              <li>4 Free Rides(5 Miles Each)</li>
+              <li>24x7 Support</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-outline-primary" data-toggle="modal" data-target="#PlatinumModal">Let's Discover</button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <footer class="d-flex flex-column pt-4  pt-md-5 border-top bg-dark text-white">
+        <div class="row ml-4 mr-4">
+          <div class="col-12 col-md">
+            <img class="mb-2" src="{% static 'images/logo.png' %}" alt="" >
+            <small class="d-block mb-3 text-muted">&copy; 2020-2021</small>
+          </div>
+          <div class="col-6 col-md">
+            <h5>About</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-white" href="#">Team</a></li>
+              <li><a class="text-white" href="#">Locations</a></li>
+              <li><a class="text-white" href="#">Privacy</a></li>
+              <li><a class="text-white" href="#">Terms</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Subscribe To Our Newsletter</h5>
+            <input type="text" class="form-control">
+          </div>
+        </div>
+      </footer>
+
+
+    <div class="modal fade" id="SilverModal" tabindex="-1" role="dialog" aria-labelledby="SilverModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document" style="max-width:600px">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'membersignup' %}">
+              {% csrf_token %}
+              <input type="hidden" value="Silver" name="membership">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="SilverModalLabel">Silver Membership</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>First Name<span style="color:red"> *</span></label>
+					  <input type="text" name="firstname" class="form-control" required placeholder="Enter Your First Name ....">
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Last Name<span style="color:red"> *</span></label>
+					  <input type="text" name="lastname" class="form-control" required placeholder="Enter Your Last Name ....">
+					</div>
+				  </div>
+				  <div class="col-lg-12">
+					<div class="form-group">
+					  <label>Email<span style="color:red"> *</span></label>
+					  <input type="email" name="email" class="form-control" required placeholder="e.g: email@example.com">
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>State<span style="color:red"> *</span></label>
+					  <input type="text" name="state" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>ZIP<span style="color:red"> *</span></label>
+					  <input type="number" name="zip" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>City<span style="color:red"> *</span></label>
+					  <input type="text" name="city" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Contact No.<span style="color:red"> *</span></label>
+					  <input type="text" name="phone" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Skype</label>
+					  <input type="text" name="skype" class="form-control" >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>WhatsApp</label>
+					  <input type="text" name="whatsapp" class="form-control" >
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="submit" class="btn btn-success">Begin Journey </button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			  </div>
+          </form>
+      </div>
+    </div>
+  </div>
+    <div class="modal fade" id="GoldModal" tabindex="-1" role="dialog" aria-labelledby="GoldModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST" action="{% url 'membersignup' %}">
+              {% csrf_token %}
+              <input type="hidden" value="Gold" name="membership">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="GoldModalLabel">Gold Membership</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>First Name<span style="color:red"> *</span></label>
+					  <input type="text" name="firstname" class="form-control" required placeholder="Enter Your First Name ....">
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Last Name<span style="color:red"> *</span></label>
+					  <input type="text" name="lastname" class="form-control" required placeholder="Enter Your Last Name ....">
+					</div>
+				  </div>
+				  <div class="col-lg-12">
+					<div class="form-group">
+					  <label>Email<span style="color:red"> *</span></label>
+					  <input type="email" name="email" class="form-control" required placeholder="e.g: email@example.com">
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>State<span style="color:red"> *</span></label>
+					  <input type="text" name="state" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>ZIP<span style="color:red"> *</span></label>
+					  <input type="number" name="zip" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>City<span style="color:red"> *</span></label>
+					  <input type="text" name="city" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Contact No.<span style="color:red"> *</span></label>
+					  <input type="text" name="phone" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Skype</label>
+					  <input type="text" name="skype" class="form-control" >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>WhatsApp</label>
+					  <input type="text" name="whatsapp" class="form-control" >
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="submit" class="btn btn-success">Begin Journey </button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			  </div>
+          </form>
+        </div>
+    </div>
+  </div>
+
+        <div class="modal fade" id="PlatinumModal" tabindex="-1" role="dialog" aria-labelledby="PlatinumModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <form method="POST" action="{% url 'membersignup' %}">
+              {% csrf_token %}
+              <input type="hidden" value="Platinum" name="membership">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="PlatinumModalLabel">Platinum Membership</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				  <span aria-hidden="true">&times;</span>
+				</button>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>First Name<span style="color:red"> *</span></label>
+					  <input type="text" name="firstname" class="form-control" required placeholder="Enter Your First Name ....">
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Last Name<span style="color:red"> *</span></label>
+					  <input type="text" name="lastname" class="form-control" required placeholder="Enter Your Last Name ....">
+					</div>
+				  </div>
+				  <div class="col-lg-12">
+					<div class="form-group">
+					  <label>Email<span style="color:red"> *</span></label>
+					  <input type="email" name="email" class="form-control" required placeholder="e.g: email@example.com">
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>State<span style="color:red"> *</span></label>
+					  <input type="text" name="state" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>ZIP<span style="color:red"> *</span></label>
+					  <input type="number" name="zip" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-4">
+					<div class="form-group">
+					  <label>City<span style="color:red"> *</span></label>
+					  <input type="text" name="city" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Contact No.<span style="color:red"> *</span></label>
+					  <input type="text" name="phone" class="form-control" required >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>Skype</label>
+					  <input type="text" name="skype" class="form-control" >
+					</div>
+				  </div>
+				  <div class="col-lg-6">
+					<div class="form-group">
+					  <label>WhatsApp</label>
+					  <input type="text" name="whatsapp" class="form-control" >
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <div class="modal-footer">
+				<button type="submit" class="btn btn-success">Begin Journey </button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			  </div>
+          </form>
+      </div>
+    </div>
+  </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
+    <script>
+      Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+{% extends 'rentadmin/layout.html' %}
+{% block content %}
+    <div class="container mt-4" style="width:60%">
+        {% if success %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ success }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% if failed %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{ failed }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        <h5>Add New Car</h5>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="row text-center">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>{{ form.make.label }}</label>
+                        {{ form.make }}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>{{ form.model.label }}</label>
+                        {{ form.model }}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>{{ form.mfg_year.label }}</label>
+                        {{ form.mfg_year }}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>{{ form.vin.label }}</label>
+                        {{ form.vin }}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>{{ form.category.label }}</label>
+                        {{ form.category }}
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label>{{ form.primary_image.label }}</label>
+                        {{ form.primary_image }}
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-lg-6">
+                    <button type="submit" name="addcar" class="btn btn-primary btn-block">Add Car</button>
+                </div>
+                <div class="col-lg-6">
+                    <a href="/administration" class="btn btn-secondary btn-block">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

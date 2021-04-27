@@ -1,0 +1,200 @@
+{% extends 'rentadmin/layout.html' %}
+{% block content %}
+{% load static %}
+<div class="container mt-3">
+    {% for m in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ m }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-lg-2 mt-2">
+            <div class="card text-center bg-primary text-white">
+                <div class="card-header">Total Customer</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_customer }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-2">
+            <div class="card text-center bg-danger text-white">
+                <div class="card-header">Payment This Week</div>
+                <div class="card-body">
+                    <h5 class="card-title">$50</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 mt-2">
+            <div class="card text-center bg-dark text-white">
+                <div class="card-header">New Applications</div>
+                <div class="card-body">
+                    <h5 class="card-title">2</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 mt-2">
+            <div class="card text-center bg-info text-white">
+                <div class="card-header">Total Car</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_cars }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron mt-3">
+        <div class="row">
+            <div class="col-lg-4">
+                <button class="btn btn-lg btn-block mt-2" data-toggle="modal" data-target="#CarModal" style="background: #011f4b;color:white">Car Management</button>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-lg btn-block mt-2" data-toggle="modal" data-target="#RenterModal" style="background: #0e9aa7;color:white">Customer Management</button>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-lg btn-block mt-2" style="background: #7bc043;color:white" data-toggle="modal" data-target="#PaymentModal">Payment Management</button>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-primary btn-lg btn-block mt-2" data-toggle="modal" data-target="#UserModal">Renter Management</button>
+            </div>
+            <div class="col-lg-4">
+                <a href="{% url 'imagecheck' %}" class="btn btn-custom-4 btn-lg btn-block mt-2">Image Check</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CarModal" tabindex="-1" role="dialog" aria-labelledby="CarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="CarModalLabel">Car Options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <a href="{% url 'addcar' %}" class="btn btn-lg btn-block mt-2" style="background: #Ebaf43;color:white">Add Car</a>
+              </div>
+              <div class="col-lg-12 mt-2">
+                  <button class="btn btn-lg btn-block mt-2" data-dismiss="modal" data-toggle="modal" data-target="#ViewCarModal" style="background: #66aa33;color:white">View Cars</button>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="ViewCarModal" tabindex="-1" role="dialog" aria-labelledby="ViewCarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 900px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ViewCarModalLabel">Car Options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              {% for car in cars %}
+              <div class="col-lg-4">
+                  <div class="card">
+                      <img class="card-img-top" src="{% static 'images/cars/none.jpg' %}" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ car.make }} {{ car.model }} {{ car.mfg_year }}</h5>
+                        <p class="card-text">VIN No: {{ car.vin }}</p>
+                        <a href="{% url 'viewcar' car.carid %}" class="btn btn-primary">View Details</a>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="RenterModal" tabindex="-1" role="dialog" aria-labelledby="RenterModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="RenterModalLabel">Customer Options</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <a href="{% url 'customerlist' %}" class="btn btn-lg btn-block mt-2" style="background: #d9138a;color:white ">All Customer List</a>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="PaymentModal" tabindex="-1" role="dialog" aria-labelledby="PaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="PaymentModalLabel">Payment Management</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <a href="{% url 'payrequests' %}" class="btn btn-lg btn-block mt-2" style="background: #d9138a;color:white ">New Payment Request</a>
+                  <button class="btn btn-lg btn-block" style="background: #ff7373;color:white ">Payment History</button>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="UserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="UserModalLabel">Renter Management</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12">
+                  <a href="{% url 'createuser' %}" class="btn btn-lg btn-block" style="background: #077b8a;color:white ">Add Renter Manually</a>
+                  <a href="#" class="btn btn-lg btn-block mt-2" style="background: #d9138a;color:white ">All Renter List</a>
+                  <button class="btn btn-lg btn-block" style="background: #ff7373;color:white ">New Applications</button>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
